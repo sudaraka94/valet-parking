@@ -51,6 +51,9 @@ func FindAndUpdate(arr []bool) int {
 	return -1
 }
 
+// CalculateTime Calculates the time gap between given
+// start and end timestamps. Outputs the gap in hours rounded to nearest hour
+// eg: 1.2 hrs = 2hrs
 func CalculateTime(start int, end int) (int, error) {
 	if (end - start) < 0 {
 		return 0, errors.New("invalid time input")

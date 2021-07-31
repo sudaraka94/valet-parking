@@ -90,3 +90,43 @@ func TestCalculateTime(t *testing.T) {
 		})
 	}
 }
+
+func TestFindAndUpdate(t *testing.T) {
+	type args struct {
+		arr []bool
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "Empty array",
+			args: args{
+				arr: []bool{},
+			},
+			want: -1,
+		},
+		{
+			name: "Array with empty slot",
+			args: args{
+				arr: []bool{false, false},
+			},
+			want: 0,
+		},
+		{
+			name: "Array without empty slot",
+			args: args{
+				arr: []bool{true, true},
+			},
+			want: -1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := FindAndUpdate(tt.args.arr); got != tt.want {
+				t.Errorf("FindAndUpdate() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

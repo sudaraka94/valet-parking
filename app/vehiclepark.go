@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"fmt"
 	"main/config"
 	"main/logging"
 	"main/util"
@@ -53,9 +52,9 @@ func (v *vehicleParkImpl) execEnter(vehicleType string, regNo string, rawTimesta
 		}
 
 		if lotNumber < 0 {
-			fmt.Println("Reject")
+			v.logger.Logf("Reject\n")
 		} else {
-			fmt.Printf("Accept %sLot%d\n", strings.Title(vehicleType), lotNumber + 1)
+			v.logger.Logf("Accept %sLot%d\n", strings.Title(vehicleType), lotNumber + 1)
 		}
 	} else {
 		return errors.New("failed to execute command")
@@ -70,8 +69,8 @@ func (v *vehicleParkImpl) execExit(regNo string, rawTimestamp string) error {
 		if err != nil {
 			return err
 		}
-
-		v.logger.Logf("%sLot%d %d\n", strings.Title(info.VehicleType), info.SlotNumber + 1, fair)
+		// I am printing floats without any decimal points since that's what I saw in the example given
+		v.logger.Logf("%sLot%d %.f\n", strings.Title(info.VehicleType), info.SlotNumber + 1, fair)
 	} else {
 		errors.New("failed to execute command")
 	}
