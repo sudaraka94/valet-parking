@@ -62,9 +62,14 @@ func (v *vehicleParkImpl) execEnter(vehicleType string, regNo string, rawTimesta
 	return nil
 }
 
+
 func (v *vehicleParkImpl) execExit(regNo string, rawTimestamp string) error {
 	if timestamp, err := strconv.Atoi(rawTimestamp); err == nil {
-		info := v.removeVehicle(regNo)
+		info, err := v.removeVehicle(regNo)
+		if err != nil {
+			return err
+		}
+
 		fair, err := v.calculateFair(info.Timestamp, timestamp, info.VehicleType)
 		if err != nil {
 			return err
@@ -77,6 +82,8 @@ func (v *vehicleParkImpl) execExit(regNo string, rawTimestamp string) error {
 	return nil
 }
 
+var findAndUpdate = util.FindAndUpdate
+
 func (v *vehicleParkImpl) addVehicle(vehicleType string, regNo string, timestamp int) (int, error) {
 	// select slot array by vehicle type
 	slotArray, ok := v.slotArrayMap[vehicleType]
@@ -85,7 +92,7 @@ func (v *vehicleParkImpl) addVehicle(vehicleType string, regNo string, timestamp
 	}
 
 	// get the least numbered slot
-	slotNumber := util.FindAndUpdate(slotArray)
+	slotNumber := findAndUpdate(slotArray)
 
 	// check if parking is full
 	if slotNumber == -1 {
@@ -102,20 +109,23 @@ func (v *vehicleParkImpl) addVehicle(vehicleType string, regNo string, timestamp
 	return slotNumber, nil
 }
 
-func (v *vehicleParkImpl) removeVehicle(regNo string) vehicleInfo {
+func (v *vehicleParkImpl) removeVehicle(regNo string) (vehicleInfo, error) {
 	// get vehicle record from the map
-	vehicleInfo := v.vehicleMap[regNo]
+	currentVehicleInfo, ok := v.vehicleMap[regNo]
+	if !ok {
+		return vehicleInfo{}, errors.New("invalid vahicle")
+	}
 
 	// clear the vehicle info from the map
 	delete(v.vehicleMap, regNo)
 
 	// get the slotArray
-	slotArray := v.slotArrayMap[vehicleInfo.VehicleType]
+	slotArray := v.slotArrayMap[currentVehicleInfo.VehicleType]
 
 	// update the slotArray
-	slotArray[vehicleInfo.SlotNumber] = false
+	slotArray[currentVehicleInfo.SlotNumber] = false
 
-	return vehicleInfo
+	return currentVehicleInfo, nil
 }
 
 func (v *vehicleParkImpl) ExecuteCmd(command string) error {
@@ -130,8 +140,10 @@ func (v *vehicleParkImpl) ExecuteCmd(command string) error {
 	}
 }
 
+// using this method so that I'm able to mock the package level function
+var calculateTime = util.CalculateTime
 func (v *vehicleParkImpl) calculateFair(start int, end int, vehicleType string) (float64, error) {
-	time, err := util.CalculateTime(start, end)
+	time, err := calculateTime(start, end)
 	if err != nil {
 		return 0, err
 	}
