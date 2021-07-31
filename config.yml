@@ -2,4 +2,6 @@ logger_config:
   logger_type: "cli" #allowed logger types: cli
 vehicle_types:
   - name: car
-    price_per_hour: 1.0 #pricePerHour in USD
+    price_per_hour: 2 #pricePerHour in USD
+  - name: motorcycle
+    price_per_hour: 1 #pricePerHour in USD

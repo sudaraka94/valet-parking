@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"errors"
@@ -6,8 +6,8 @@ import (
 
 // Config structure definition and the config validation
 type Config struct {
-	VehicleTypes	[]VehicleType	`yaml:"vehicle_types"`
-	LoggerConfig	LoggerConfig	`yaml:"logger_config"`
+	VehicleTypes []VehicleType `yaml:"vehicle_types"`
+	LoggerConfig LoggerConfig  `yaml:"logger_config"`
 }
 
 // Validate validates Config struct
