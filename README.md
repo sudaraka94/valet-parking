@@ -1,4 +1,5 @@
 # Valet Parking
+[![Go](https://github.com/sudaraka94/valet-parking/actions/workflows/go.yml/badge.svg)](https://github.com/sudaraka94/valet-parking/actions/workflows/go.yml)
 ## Running the program on a bare ubuntu 16.04 vm
 1. Install Go
 ```shell
