@@ -28,7 +28,7 @@ func Test_vehicleParkImpl_calculateFare(t *testing.T) {
 		calculateTimeMethodMock		func(int, int) (int, error)
 	}{
 		{
-			name: "Successful fare calculation",
+			name: "Should calculate fare properly",
 			fields: fields{
 				fareMap: map[string]float64{
 					"car": float64(1),
@@ -44,7 +44,7 @@ func Test_vehicleParkImpl_calculateFare(t *testing.T) {
 			},
 		},
 		{
-			name: "Fare calculation with invalid vehicle type",
+			name: "Should throw invalid vehicle type error",
 			fields: fields{
 				fareMap: map[string]float64{
 					"car": float64(1),
