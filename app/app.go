@@ -23,7 +23,6 @@ type appImpl struct {
 }
 
 func NewApp(config *config2.Config, logger logging.Logger) App {
-	logger.Log("Initializing the app...")
 	return &appImpl{
 		config: config,
 		logger: logger,
