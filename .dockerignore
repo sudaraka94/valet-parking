@@ -1,0 +1,5 @@
+# Adding files to be ignored in docker build
+.github
+.git
+.gitignore
+README.md
