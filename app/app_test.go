@@ -26,7 +26,7 @@ func Test_appImpl_parseDataContent(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Proper data format",
+			name: "Should parse data properly",
 			fields: fields{
 				config: &config.Config{
 					VehicleTypes: []config.VehicleType{
@@ -50,7 +50,7 @@ func Test_appImpl_parseDataContent(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "Invalid data format",
+			name: "Should throw invalid data format error",
 			fields: fields{
 				config: &config.Config{
 					VehicleTypes: []config.VehicleType{

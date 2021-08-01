@@ -17,7 +17,7 @@ func Test_initializeLogger(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "CLI logger",
+			name: "Should return a CLI Logger",
 			args: args{
 				loggerType: "cli",
 			},
@@ -25,7 +25,7 @@ func Test_initializeLogger(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "Invalid logger",
+			name: "Should throw invalid logger type error",
 			args: args{
 				loggerType: "clix",
 			},
@@ -59,7 +59,7 @@ func TestCalculateTime(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "Calculate normal time",
+			name: "Should calculate time properly",
 			args: args{
 				start: 1613541902,
 				end: 1613549740,
@@ -68,7 +68,7 @@ func TestCalculateTime(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "Calculate with invalid inputs",
+			name: "Should throw error on invalid timestamps",
 			args: args{
 				start: 1613549740,
 				end: 1613541902,
@@ -101,21 +101,21 @@ func TestFindAndUpdate(t *testing.T) {
 		want int
 	}{
 		{
-			name: "Empty array",
+			name: "Should process empty array properly",
 			args: args{
 				arr: []bool{},
 			},
 			want: -1,
 		},
 		{
-			name: "Array with empty slot",
+			name: "Should process an array with empty slot properly",
 			args: args{
 				arr: []bool{false, false},
 			},
 			want: 0,
 		},
 		{
-			name: "Array without empty slot",
+			name: "Should process an array without empty slots",
 			args: args{
 				arr: []bool{true, true},
 			},

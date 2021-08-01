@@ -11,7 +11,8 @@ import (
 // it parse the flags passed and initializes the application
 // accordingly
 func main()  {
-	// define flags
+	// define flags eg:
+	// -config=config.yml -data=datafile
 	configFilePath := flag.String("config", "config.yml", "Config file path")
 	dataFilePath := flag.String("data", "datafile", "Data file path")
 
@@ -21,13 +22,15 @@ func main()  {
 	//initializes the application
 	app, err := initialize(*configFilePath)
 	if err != nil {
-		panic(err)
+		fmt.Printf("failed to initialize the application with error: %s", err.Error())
+		return
 	}
 
-	// load data from data file
+	// load data from data file and initialize the vehicle park
 	err = app.LoadData(*dataFilePath)
 	if err != nil {
-		panic(fmt.Errorf("failed to load data from the data file with err, %w", err))
+		fmt.Printf("failed to load data from the data file with err, %s", err.Error())
+		return
 	}
 
 	//start app execution
@@ -37,7 +40,7 @@ func main()  {
 // initialize inits an App instance
 // with given configurations
 func initialize(configPath string) (app.App, error) {
-	// load config
+	// load config from config.yml
 	config, err := util.ParseConfigFile(configPath)
 	if err != nil {
 		return nil, err
@@ -50,7 +53,7 @@ func initialize(configPath string) (app.App, error) {
 	}
 
 	// initialize logging
-	logger, err := util.InitializeLogger("cli")
+	logger, err := util.InitializeLogger(config.LoggerConfig.LoggerType)
 	if err != nil {
 		return nil, err
 	}
