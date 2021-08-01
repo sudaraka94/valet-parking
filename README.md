@@ -1,6 +1,6 @@
 # Valet Parking
 [![Go](https://github.com/sudaraka94/valet-parking/actions/workflows/go.yml/badge.svg)](https://github.com/sudaraka94/valet-parking/actions/workflows/go.yml)
-## Running the program on a bare ubuntu 16.04 vm
+## Running the program on a bare Ubuntu 16.04 VM
 1. Install Go
 ```shell
 sudo apt-get update
@@ -65,7 +65,7 @@ four sections,
 #### 2. Removing a vehicle from the park - `Overall time complexity : O(1)`
 - Lookup the vehicle in the hashmap using the vehicle registration number - `Time Complexity: O(1)`
 - Remove the vehicle from the hashmap and mark the slot available - `Time Complexity: O(1)`
-- Calculate the fair - `Time Complexity: O(1)`
+- Calculate the fare - `Time Complexity: O(1)`
 
 ## Logger implementation
 Throughout the whole project, Logger is exposed through an interface. Currently logger interface is 

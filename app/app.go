@@ -30,6 +30,8 @@ func NewApp(config *config2.Config, logger logging.Logger) App {
 	}
 }
 
+// LoadData reads the contents of the data file located in the given
+// filepath and parse the content
 func (a *appImpl) LoadData(filePath string) error {
 	rawFile, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -49,22 +51,25 @@ func (a *appImpl) LoadData(filePath string) error {
 	return nil
 }
 
+// parseDataContent parses the stringified contents of the datafile into
+// number of vehicle slots and an array of operations to execute
 func (a *appImpl) parseDataContent(content string) (map[string][]bool, []string, error) {
-	// split data into lines
+	// split data by line breaks
+	// first line contains the number of slots and other lines contains operations
 	contentArr := strings.Split(content, "\n")
-	// validate if there are more than 1 line
+	// there has to be at least a single operation
 	if len(contentArr) <= 1 {
 		return map[string][]bool{}, []string{}, errors.New("add at least a single operation for execution")
 	}
 
-	// split first line to get the number of slots for each type
+	// split first line to get the number of slots for each vehicle type
 	numberOfSlots := strings.Split(contentArr[0], " ")
-	// validate if there are more than 1 line
+	// validate if the number of vehicle types defined equals to the number of slot sizes
 	if len(numberOfSlots) != len(a.config.VehicleTypes) {
 		return map[string][]bool{}, []string{}, errors.New("include slot numbers strictly for defined vehicle types")
 	}
 
-	// iterate through vehicle types and assign arrays
+	// iterate through vehicle types and assign arrays to keep track of slot occupancy
 	slotArrays := map[string][]bool{}
 	for i, vType := range a.config.VehicleTypes {
 		slotCount, err := strconv.Atoi(numberOfSlots[i])
@@ -77,8 +82,8 @@ func (a *appImpl) parseDataContent(content string) (map[string][]bool, []string,
 	return slotArrays, contentArr[1:], nil
 }
 
+// Start Executes each of the operations on the vehiclePark serially
 func (a *appImpl) Start() {
-	// Execute each of the operations on the vehiclePark
 	for _, operation := range a.operations {
 		a.vehiclePark.ExecuteCmd(operation)
 	}

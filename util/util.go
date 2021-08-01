@@ -10,7 +10,7 @@ import (
 )
 
 // ParseConfigFile reads the yml file in the given path
-// and unmarshalls the content in to a Config struct
+// and unmarshalls the content in to a config.Config struct
 func ParseConfigFile(configFilePath string) (*config.Config, error) {
 	rawFile, err := ioutil.ReadFile(configFilePath)
 	if err != nil {
@@ -30,6 +30,7 @@ func ParseConfigFile(configFilePath string) (*config.Config, error) {
 }
 
 // InitializeLogger returns a logger depending on the logger type
+// allowed loggerTypes : cli
 func InitializeLogger(loggerType string) (logging.Logger, error) {
 	switch loggerType {
 	case "cli":
@@ -40,7 +41,7 @@ func InitializeLogger(loggerType string) (logging.Logger, error) {
 }
 
 // FindAndUpdate findAndUpdate finds the least index with -1 as value
-// O(n) complexity
+// O(n) time complexity
 func FindAndUpdate(arr []bool) int {
 	for i, value := range arr {
 		if !value {

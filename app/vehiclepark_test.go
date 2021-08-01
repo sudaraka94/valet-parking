@@ -7,11 +7,11 @@ import (
 	"testing"
 )
 
-func Test_vehicleParkImpl_calculateFair(t *testing.T) {
+func Test_vehicleParkImpl_calculateFare(t *testing.T) {
 	type fields struct {
 		vehicleMap   map[string]vehicleInfo
 		slotArrayMap map[string][]bool
-		fairMap      map[string]float64
+		fareMap      map[string]float64
 		logger       logging.Logger
 	}
 	type args struct {
@@ -28,9 +28,9 @@ func Test_vehicleParkImpl_calculateFair(t *testing.T) {
 		calculateTimeMethodMock		func(int, int) (int, error)
 	}{
 		{
-			name: "Successful fair calculation",
+			name: "Successful fare calculation",
 			fields: fields{
-				fairMap: map[string]float64{
+				fareMap: map[string]float64{
 					"car": float64(1),
 				},
 			},
@@ -44,9 +44,9 @@ func Test_vehicleParkImpl_calculateFair(t *testing.T) {
 			},
 		},
 		{
-			name: "Fair calculation with invalid vehicle type",
+			name: "Fare calculation with invalid vehicle type",
 			fields: fields{
-				fairMap: map[string]float64{
+				fareMap: map[string]float64{
 					"car": float64(1),
 				},
 			},
@@ -62,7 +62,7 @@ func Test_vehicleParkImpl_calculateFair(t *testing.T) {
 			v := &vehicleParkImpl{
 				vehicleMap:   tt.fields.vehicleMap,
 				slotArrayMap: tt.fields.slotArrayMap,
-				fairMap:      tt.fields.fairMap,
+				fareMap:      tt.fields.fareMap,
 				logger:       tt.fields.logger,
 			}
 			// Mocking the method
@@ -72,13 +72,13 @@ func Test_vehicleParkImpl_calculateFair(t *testing.T) {
 				calculateTime = util.CalculateTime
 			}
 
-			got, err := v.calculateFair(tt.args.start, tt.args.end, tt.args.vehicleType)
+			got, err := v.calculateFare(tt.args.start, tt.args.end, tt.args.vehicleType)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("calculateFair() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("calculateFare() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if got != tt.want {
-				t.Errorf("calculateFair() got = %v, want %v", got, tt.want)
+				t.Errorf("calculateFare() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -90,7 +90,7 @@ func Test_vehicleParkImpl_addVehicle(t *testing.T) {
 	type fields struct {
 		vehicleMap   map[string]vehicleInfo
 		slotArrayMap map[string][]bool
-		fairMap      map[string]float64
+		fareMap      map[string]float64
 		logger       logging.Logger
 	}
 	type args struct {
@@ -161,7 +161,7 @@ func Test_vehicleParkImpl_addVehicle(t *testing.T) {
 			v := &vehicleParkImpl{
 				vehicleMap:   tt.fields.vehicleMap,
 				slotArrayMap: tt.fields.slotArrayMap,
-				fairMap:      tt.fields.fairMap,
+				fareMap:      tt.fields.fareMap,
 				logger:       tt.fields.logger,
 			}
 
@@ -195,7 +195,7 @@ func Test_vehicleParkImpl_removeVehicle(t *testing.T) {
 	type fields struct {
 		vehicleMap   map[string]vehicleInfo
 		slotArrayMap map[string][]bool
-		fairMap      map[string]float64
+		fareMap      map[string]float64
 		logger       logging.Logger
 	}
 	type args struct {
@@ -245,7 +245,7 @@ func Test_vehicleParkImpl_removeVehicle(t *testing.T) {
 			v := &vehicleParkImpl{
 				vehicleMap:   tt.fields.vehicleMap,
 				slotArrayMap: tt.fields.slotArrayMap,
-				fairMap:      tt.fields.fairMap,
+				fareMap:      tt.fields.fareMap,
 				logger:       tt.fields.logger,
 			}
 			got, err := v.removeVehicle(tt.args.regNo)
